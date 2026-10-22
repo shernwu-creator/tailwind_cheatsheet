@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --c-canvas: 246 244 237;
+    --c-surface: 255 255 255;
+    --c-raised: 250 249 244;
+    --c-line: 229 225 214;
+    --c-ink: 22 32 27;
+    --c-muted: 102 113 105;
+    --c-brand: 13 122 96;
+    --c-brand-soft: 217 242 232;
+    --c-accent: 238 174 55;
+    color-scheme: light;
+  }
+
+  .dark {
+    --c-canvas: 12 18 16;
+    --c-surface: 20 28 24;
+    --c-raised: 25 35 30;
+    --c-line: 45 57 50;
+    --c-ink: 235 241 236;
+    --c-muted: 146 160 151;
+    --c-brand: 95 211 171;
+    --c-brand-soft: 24 62 51;
+    --c-accent: 240 186 78;
+    color-scheme: dark;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: rgb(var(--c-line));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply min-w-[320px] bg-canvas font-sans text-ink;
+    margin: 0;
+  }
+
+  ::selection {
+    background: rgb(var(--c-brand) / 0.24);
+    color: rgb(var(--c-ink));
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand/50 ring-offset-2 ring-offset-canvas;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .preview-dots {
+    background-image: radial-gradient(rgb(var(--c-muted) / 0.18) 0.75px, transparent 0.75px);
+    background-size: 14px 14px;
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(rgb(var(--c-ink) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-ink) / 0.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-thin {
+    scrollbar-color: rgb(var(--c-line)) transparent;
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgb(var(--c-line));
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
