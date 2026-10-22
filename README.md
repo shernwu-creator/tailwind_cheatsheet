@@ -2,14 +2,17 @@
 
 一個以 React + Vite 打造的個人 Tailwind CSS 樣式工具庫。把日常介面最常用的 utility classes 收進同一個地方，支援即時模糊搜尋、分類瀏覽、視覺預覽與一鍵複製。
 
+[Live Demo](https://shernwu-creator.github.io/tailwind_cheatsheet/) · [GitHub Repository](https://github.com/shernwu-creator/tailwind_cheatsheet)
+
 ![Tailwind 速查介面預覽](./docs/preview.png)
 
 ## 功能特色
 
-- **81 個實用樣式、6 大分類**：排版、間距、顏色、Flexbox & Grid、尺寸、特效與圓角。
+- **129 個實用樣式、10 大分類**：排版、間距、顏色、Flexbox & Grid、尺寸、特效與圓角，以及響應式、滾動、動畫轉場、裁切遮罩四大進階分類。
+- **進階樣式收錄**：包含 `md:grid-cols-2`、`hidden md:block`、`snap-x snap-mandatory`、`animate-bounce`、`transition-all duration-300 ease-in-out`、`hover:scale-105`、JIT `[clip-path:…]` 與漸層文字裁切。
 - **即時模糊搜尋**：可搜尋 Class 名稱、原生 CSS、中文說明、標籤與色碼，並容忍 `textsm`、`ronded` 這類拼字誤差。
 - **分類導覽**：桌面版固定側邊欄、行動版水平分類列，快速切換樣式群組。
-- **所見即所得預覽**：字級、字重、顏色、間距、Flex/Grid、寬高、圓角、邊框與陰影都有專屬視覺預覽。
+- **所見即所得預覽**：字級、顏色、間距、Flex/Grid、寬高、圓角與陰影，以及斷點前後對照、滾動捕捉、即時動畫、Hover 轉場與裁切遮罩都有專屬視覺預覽。
 - **點擊即可複製**：點 Class 名稱即可複製，包含成功 micro-animation、Toast 提示與剪貼簿 fallback。
 - **明暗模式**：跟隨系統偏好並記住選擇，使用 CSS 變數實作一致的深色主題。
 - **鍵盤操作**：`⌘/Ctrl + K` 或 `/` 聚焦搜尋，`Esc` 清除搜尋。

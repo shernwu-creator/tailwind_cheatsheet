@@ -43,7 +43,7 @@ export function Hero({ total, categoryCount, onExampleSearch }) {
           </h1>
 
           <p className="mt-4 max-w-[560px] text-[13px] leading-[1.85] text-muted sm:text-sm">
-            從字級、間距、顏色到陰影，把最常用的樣式收進同一個抽屜。
+            從字級、間距、顏色到響應式、滾動與動效，把最常用的樣式收進同一個抽屜。
             即時搜尋、視覺預覽、點擊複製，少一次切換分頁，多一點專注。
           </p>
 

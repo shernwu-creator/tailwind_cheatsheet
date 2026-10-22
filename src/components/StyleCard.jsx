@@ -62,7 +62,7 @@ export function StyleCard({ item, category, copied, onCopy, showCategory, query 
           aria-label={`複製 ${item.className} 類別名稱`}
           title={copied ? '已複製到剪貼簿' : `點擊複製 ${item.className}`}
         >
-          <code className="min-w-0 truncate font-mono text-[12.5px] font-semibold tracking-[-0.01em] text-ink">
+          <code className="min-w-0 break-words font-mono text-[12.5px] font-semibold leading-[1.55] tracking-[-0.01em] text-ink">
             <Highlight text={item.className} query={query} />
           </code>
           <span

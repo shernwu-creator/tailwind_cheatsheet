@@ -1,3 +1,12 @@
+import {
+  ArrowDown,
+  ArrowRight,
+  Lock,
+  MousePointer2,
+  MoveHorizontal,
+  ShieldCheck,
+} from 'lucide-react'
+
 const layoutTones = ['bg-brand/80', 'bg-accent/85', 'bg-[#7c6cf0]/85', 'bg-[#3b9edb]/80']
 
 function Frame({ children, label }) {
@@ -354,6 +363,434 @@ function BorderColorVisual({ preview }) {
   )
 }
 
+function ResponsiveMock({ state }) {
+  switch (state) {
+    case 'hidden':
+      return (
+        <div className="flex h-[42px] items-center justify-center rounded-md border border-dashed border-line bg-surface/70">
+          <span className="font-mono text-[6.5px] text-muted/45">display: none</span>
+        </div>
+      )
+    case 'block':
+      return (
+        <div className="h-[42px] rounded-md bg-gradient-to-br from-brand via-brand/80 to-[#5fd3ab]" />
+      )
+    case 'grid2':
+      return (
+        <div className="grid h-[42px] grid-cols-2 gap-1">
+          {[0, 1, 2, 3].map((index) => (
+            <TonedBlock key={index} index={index} className="min-h-0" />
+          ))}
+        </div>
+      )
+    case 'grid3':
+      return (
+        <div className="grid h-[42px] grid-cols-3 gap-1">
+          {[0, 1, 2].map((index) => (
+            <TonedBlock key={index} index={index} className="min-h-0" />
+          ))}
+        </div>
+      )
+    case 'row':
+      return (
+        <div className="flex h-[42px] gap-1">
+          {[0, 1, 2].map((index) => (
+            <TonedBlock key={index} index={index} className="min-h-0 flex-1" />
+          ))}
+        </div>
+      )
+    case 'textSm':
+      return (
+        <div className="flex h-[42px] items-center justify-center">
+          <span className="text-[11px] font-semibold text-ink">Aa 字</span>
+        </div>
+      )
+    case 'textLg':
+      return (
+        <div className="flex h-[42px] items-center justify-center">
+          <span className="text-[18px] font-semibold text-ink">Aa 字</span>
+        </div>
+      )
+    case 'tight':
+      return (
+        <div className="flex h-[42px] items-center justify-center rounded-md bg-brand/10 p-0.5">
+          <div className="flex h-full w-full items-center justify-center rounded bg-brand/70">
+            <span className="text-[6.5px] font-medium text-white dark:text-pine">內容</span>
+          </div>
+        </div>
+      )
+    case 'padded':
+      return (
+        <div className="flex h-[42px] items-center justify-center rounded-md bg-brand/10 p-2.5">
+          <div className="flex h-full w-full items-center justify-center rounded bg-brand/70">
+            <span className="text-[6.5px] font-medium text-white dark:text-pine">內容</span>
+          </div>
+        </div>
+      )
+    case 'full':
+      return (
+        <div className="flex h-[42px] items-center">
+          <div className="h-7 w-full rounded-md bg-brand/70" />
+        </div>
+      )
+    case 'contained':
+      return (
+        <div className="flex h-[42px] items-center">
+          <div className="mx-auto h-7 w-[72%] rounded-md bg-brand/70" />
+        </div>
+      )
+    case 'wrap':
+      return (
+        <div className="flex h-[42px] flex-wrap content-start gap-1">
+          {[0, 1, 2, 3].map((index) => (
+            <span key={index} className="h-[17px] w-[30%] rounded-[3px] bg-brand/70" />
+          ))}
+        </div>
+      )
+    default:
+      return (
+        <div className="flex h-[42px] flex-col gap-1">
+          <span className="min-h-0 flex-1 rounded-[3px] bg-brand/80" />
+          <span className="min-h-0 flex-1 rounded-[3px] bg-brand/45" />
+        </div>
+      )
+  }
+}
+
+function ResponsiveVisual({ preview }) {
+  const isMax = preview.breakpoint.startsWith('max-')
+  const breakpointLabel = preview.breakpoint.toUpperCase()
+
+  return (
+    <div className="flex w-full items-stretch gap-1.5">
+      <div className="min-w-0 flex-1 rounded-lg border border-line bg-surface/55 p-1.5">
+        <div className="mb-1 flex items-center justify-between font-mono text-[6px] uppercase tracking-[0.1em] text-muted/40">
+          <span>Base</span>
+          <span>auto</span>
+        </div>
+        <ResponsiveMock state={preview.from} />
+      </div>
+
+      <div className="flex w-3 shrink-0 items-center justify-center text-muted/30">
+        <ArrowRight className="h-3 w-3" aria-hidden="true" />
+      </div>
+
+      <div className="min-w-0 flex-1 rounded-lg border border-brand/25 bg-brand-soft/20 p-1.5">
+        <div className="mb-1 flex items-center justify-between font-mono text-[6px] uppercase tracking-[0.1em] text-brand/60">
+          <span>{breakpointLabel}</span>
+          <span>{isMax ? '≤' : '≥'}</span>
+        </div>
+        <ResponsiveMock state={preview.to} />
+      </div>
+    </div>
+  )
+}
+
+function ScrollStrip({ variant }) {
+  const activeIndex = variant === 'start' || variant === 'always' ? 0 : 1
+  const snapLine =
+    variant === 'start' || variant === 'always' ? 'left-[18px]' : 'left-1/2'
+
+  return (
+    <div className="relative w-full max-w-[230px] overflow-hidden rounded-lg border border-line bg-surface/45">
+      <div className="flex items-center justify-between px-2 pt-2 font-mono text-[6px] uppercase tracking-[0.12em] text-muted/40">
+        <span>snap container</span>
+        {variant === 'always' ? (
+          <Lock className="h-2.5 w-2.5" aria-hidden="true" />
+        ) : (
+          <MoveHorizontal className="h-2.5 w-2.5" aria-hidden="true" />
+        )}
+      </div>
+      <div className="flex gap-1.5 p-2">
+        {[0, 1, 2].map((index) => (
+          <span
+            key={index}
+            className={`h-10 w-[68px] shrink-0 rounded-md ${
+              index === activeIndex ? 'bg-brand' : 'bg-line/60'
+            }`}
+          />
+        ))}
+      </div>
+      <span
+        className={`pointer-events-none absolute bottom-2 top-6 w-px border-l border-dashed border-brand/60 ${snapLine}`}
+        aria-hidden="true"
+      />
+    </div>
+  )
+}
+
+function ScrollVisual({ preview }) {
+  const { variant } = preview
+
+  if (variant === 'smooth' || variant === 'auto') {
+    return (
+      <div className="w-full max-w-[220px] rounded-lg border border-line bg-surface/45 p-2.5">
+        <div className="flex items-center justify-between font-mono text-[6px] uppercase tracking-[0.12em] text-muted/40">
+          <span>scroll container</span>
+          <span className="flex items-center gap-1 normal-case tracking-normal">
+            <MousePointer2 className="h-2.5 w-2.5" aria-hidden="true" />
+            {variant}
+          </span>
+        </div>
+        <div className="relative mt-3 h-1.5 rounded-full bg-line/60">
+          <span
+            className="absolute left-0 top-0 h-full rounded-full bg-brand/25"
+            style={{ width: variant === 'smooth' ? '60%' : '22%' }}
+          />
+          <span
+            className="absolute -top-1 h-3.5 w-3.5 rounded-full bg-brand shadow-sm"
+            style={{ left: variant === 'smooth' ? '55%' : '18%' }}
+          />
+        </div>
+        <div className="mt-2.5 flex items-center justify-between font-mono text-[6px] text-muted/35">
+          <span>start</span>
+          <span>{variant === 'smooth' ? 'animated' : 'instant'}</span>
+          <span>target</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (variant === 'contain' || variant === 'none') {
+    return (
+      <div className="relative flex h-[68px] w-full max-w-[218px] items-center justify-center rounded-lg border border-dashed border-line bg-surface/45 p-2">
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-md border border-line bg-surface">
+          <span className="text-[8px] font-medium text-ink/70">內層可捲動區</span>
+          <span className="mt-1 h-1 w-16 rounded bg-line" />
+          <span className="mt-1.5 flex items-center gap-1 rounded-full border border-brand/20 bg-brand-soft px-2 py-0.5 text-[6.5px] font-medium text-brand">
+            <ShieldCheck className="h-2.5 w-2.5" aria-hidden="true" />
+            {variant === 'contain' ? 'chain contained' : 'chain disabled'}
+          </span>
+        </div>
+        <ArrowDown
+          className="absolute bottom-1 right-1 h-3 w-3 text-muted/25"
+          aria-hidden="true"
+        />
+      </div>
+    )
+  }
+
+  if (variant === 'margin' || variant === 'padding') {
+    return (
+      <div className="relative h-[68px] w-full max-w-[220px] overflow-hidden rounded-lg border border-line bg-surface/45">
+        <span className="absolute inset-x-0 top-0 h-3 bg-line/25" />
+        <span className="absolute left-2 top-1 font-mono text-[6px] text-muted/45">
+          viewport
+        </span>
+        <span
+          className="absolute inset-x-0 border-t border-dashed border-brand/60"
+          style={{ top: variant === 'margin' ? '28px' : '20px' }}
+        />
+        <div
+          className="absolute inset-x-4 rounded-md bg-brand/15 px-2 py-1.5 text-center text-[8px] font-medium text-brand"
+          style={{ top: variant === 'margin' ? '34px' : '24px' }}
+        >
+          anchor target
+        </div>
+      </div>
+    )
+  }
+
+  return <ScrollStrip variant={variant} />
+}
+
+function AnimationVisual({ variant }) {
+  switch (variant) {
+    case 'spin':
+      return (
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-line bg-surface/60">
+          <span className="h-10 w-10 animate-spin rounded-full border-[3px] border-brand/15 border-t-brand" />
+        </div>
+      )
+    case 'ping':
+      return (
+        <div className="relative flex h-16 w-16 items-center justify-center">
+          <span className="absolute inline-flex h-12 w-12 animate-ping rounded-full bg-brand/30" />
+          <span className="relative h-7 w-7 rounded-full bg-brand shadow-sm" />
+        </div>
+      )
+    case 'pulse':
+      return (
+        <div className="w-[138px] animate-pulse space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="h-8 w-8 rounded-full bg-line/80" />
+            <span className="h-2 w-16 rounded bg-line/80" />
+          </div>
+          <span className="block h-2 w-full rounded bg-line/60" />
+          <span className="block h-2 w-4/5 rounded bg-line/40" />
+        </div>
+      )
+    case 'bounce':
+      return (
+        <div className="flex h-[66px] w-20 flex-col items-center justify-between">
+          <span className="h-8 w-8 animate-bounce rounded-full bg-gradient-to-br from-brand to-[#5fd3ab] shadow-sm" />
+          <span className="h-px w-10 bg-line" />
+        </div>
+      )
+    case 'none':
+      return (
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-line bg-surface">
+          <span className="h-2.5 w-2.5 rounded-full bg-muted/25" />
+          <span className="absolute h-px w-12 rotate-45 bg-[#e85d8d]/65" />
+        </div>
+      )
+    case 'ease':
+      return (
+        <div className="relative w-full max-w-[190px]">
+          <svg viewBox="0 0 200 62" className="h-14 w-full" aria-hidden="true">
+            <path
+              d="M8 54 C 62 54, 72 8, 192 8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              className="text-brand/70"
+            />
+          </svg>
+          <span className="absolute right-1 top-0 h-2.5 w-2.5 rounded-full bg-brand" />
+          <span className="absolute bottom-0 left-0 font-mono text-[6px] text-muted/40">
+            ease-in-out
+          </span>
+        </div>
+      )
+    case 'duration':
+      return (
+        <div className="group/pv w-full max-w-[190px] rounded-lg border border-line bg-surface/50 p-3">
+          <div className="relative h-2 rounded-full bg-line/50">
+            <span className="absolute left-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-brand transition-transform duration-300 group-hover/pv:translate-x-[142px]" />
+          </div>
+          <div className="mt-2 flex justify-between font-mono text-[6px] text-muted/40">
+            <span>0ms</span>
+            <span>300ms</span>
+          </div>
+        </div>
+      )
+    case 'transition':
+    case 'comboTransition':
+    case 'translate':
+    case 'scale':
+    case 'liftScale': {
+      const isCombo = variant === 'comboTransition'
+      const motion =
+        variant === 'translate'
+          ? 'group-hover/pv:-translate-y-1'
+          : variant === 'scale'
+            ? 'group-hover/pv:scale-105'
+            : 'group-hover/pv:-translate-y-1 group-hover/pv:scale-105'
+      return (
+        <div className="group/pv flex h-[70px] w-full items-center justify-center">
+          <div
+            className={`flex h-12 w-24 flex-col items-center justify-center rounded-xl border border-line bg-surface text-[8px] font-medium text-muted shadow-sm transition-all duration-300 ease-in-out ${
+              isCombo
+                ? 'group-hover/pv:border-brand/40 group-hover/pv:bg-brand group-hover/pv:text-white dark:group-hover/pv:text-pine'
+                : 'group-hover/pv:border-brand/30 group-hover/pv:text-brand'
+            } ${variant === 'transition' ? 'group-hover/pv:bg-brand-soft' : ''} ${
+              variant === 'transition' ? '' : motion
+            }`}
+          >
+            <span>Hover me</span>
+            <span className="mt-0.5 font-mono text-[6.5px] opacity-60">
+              {variant === 'comboTransition'
+                ? 'all · 300ms'
+                : variant === 'translate'
+                  ? 'translateY(-4px)'
+                  : variant === 'scale'
+                    ? 'scale(1.05)'
+                    : variant === 'liftScale'
+                      ? 'lift + scale'
+                      : 'color shift'}
+            </span>
+          </div>
+        </div>
+      )
+    }
+    case 'delay':
+      return (
+        <div className="group/pv w-full max-w-[190px] rounded-lg border border-line bg-surface/50 p-3">
+          <div className="relative h-2 rounded-full bg-line/50">
+            <span className="absolute left-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-accent transition-transform delay-150 duration-300 group-hover/pv:translate-x-[140px]" />
+          </div>
+          <div className="mt-2 flex justify-between font-mono text-[6px] text-muted/40">
+            <span>hover</span>
+            <span>+150ms</span>
+          </div>
+        </div>
+      )
+    case 'motionReduce':
+      return (
+        <div className="flex items-center gap-2.5 rounded-xl border border-dashed border-line bg-surface/60 px-3 py-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-brand">
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="text-[8px] leading-4 text-muted">
+            減少動態時
+            <br />
+            <strong className="font-semibold text-ink">關閉轉場</strong>
+          </span>
+        </div>
+      )
+    default:
+      return null
+  }
+}
+
+function ClipVisual({ path }) {
+  return (
+    <div className="relative flex h-[82px] w-[96px] items-center justify-center">
+      <span className="absolute inset-0 rounded-lg border border-dashed border-line" />
+      <span
+        className="absolute inset-1 bg-gradient-to-br from-[#f59e0b] via-[#e85d8d] to-[#7c6cf0]"
+        style={{ clipPath: path }}
+      />
+    </div>
+  )
+}
+
+function ClipTextVisual({ variant }) {
+  if (variant === 'transparent') {
+    return (
+      <span
+        className="text-[38px] font-black leading-none tracking-tight text-transparent"
+        style={{ WebkitTextStroke: '1.25px rgb(100 116 139 / 0.55)' }}
+      >
+        Aa
+      </span>
+    )
+  }
+
+  const gradient =
+    variant === 'full'
+      ? 'bg-gradient-to-br from-fuchsia-500 via-violet-500 to-sky-500'
+      : 'bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500'
+
+  return (
+    <div className="flex flex-col items-center">
+      <span
+        className={`${gradient} bg-clip-text text-[29px] font-black leading-none tracking-[-0.03em] text-transparent`}
+      >
+        Gradient
+      </span>
+      <span className="mt-2 font-mono text-[6.5px] uppercase tracking-[0.15em] text-muted/45">
+        {variant === 'full' ? 'three-color blend' : 'background-clip: text'}
+      </span>
+    </div>
+  )
+}
+
+function MaskVisual({ mask }) {
+  return (
+    <div className="relative h-[76px] w-full max-w-[210px] overflow-hidden rounded-xl border border-line bg-raised">
+      <div
+        className="h-full w-full bg-gradient-to-br from-[#0ea5e9] via-[#7c6cf0] to-[#e85d8d]"
+        style={{ maskImage: mask, WebkitMaskImage: mask }}
+      />
+      <span className="absolute left-2 top-2 rounded bg-black/15 px-1.5 py-0.5 font-mono text-[6px] tracking-[0.12em] text-white/75">
+        MASK
+      </span>
+    </div>
+  )
+}
+
 export function StylePreview({ preview }) {
   if (!preview) return null
 
@@ -522,6 +959,48 @@ export function StylePreview({ preview }) {
       return (
         <Frame label={preview.label}>
           <OpacityVisual value={preview.value} />
+        </Frame>
+      )
+
+    case 'responsive':
+      return (
+        <Frame label={preview.label}>
+          <ResponsiveVisual preview={preview} />
+        </Frame>
+      )
+
+    case 'scroll':
+      return (
+        <Frame label={preview.label}>
+          <ScrollVisual preview={preview} />
+        </Frame>
+      )
+
+    case 'animation':
+      return (
+        <Frame label={preview.label}>
+          <AnimationVisual variant={preview.variant} />
+        </Frame>
+      )
+
+    case 'clip':
+      return (
+        <Frame label={preview.label}>
+          <ClipVisual path={preview.path} />
+        </Frame>
+      )
+
+    case 'clipText':
+      return (
+        <Frame label={preview.label}>
+          <ClipTextVisual variant={preview.variant} />
+        </Frame>
+      )
+
+    case 'mask':
+      return (
+        <Frame label={preview.label}>
+          <MaskVisual mask={preview.mask} />
         </Frame>
       )
 
